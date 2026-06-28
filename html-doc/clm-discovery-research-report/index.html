@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CLM Discovery Plugin — Research Briefing</title>
+  <meta name="description" content="Research briefing: Vault CLM gap, blind spot, and Release 1 plugin wedge." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/open-props/open-props.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <div class="chrome">
+    <div class="progress" aria-hidden="true"><div class="progress__bar"></div></div>
+    <header class="topbar">
+      <div class="brand">CLM Discovery <span>Research</span></div>
+      <div class="slide-indicator"><strong>1</strong> / 12</div>
+      <div class="controls-hint">
+        <span><kbd>←</kbd><kbd>→</kbd><kbd>WASD</kbd> navigate</span>
+        <span><kbd>F</kbd> full page</span>
+        <span><kbd>?</kbd> help</span>
+      </div>
+    </header>
+    <nav class="bottomnav" aria-label="Slide navigation">
+      <button type="button" class="nav-btn" data-action="prev" aria-label="Previous slide">←</button>
+      <button type="button" class="nav-btn" data-action="help" aria-label="Keyboard shortcuts">?</button>
+      <button type="button" class="nav-btn" data-action="fullscreen" aria-label="Toggle full page">⛶</button>
+      <button type="button" class="nav-btn" data-action="next" aria-label="Next slide">→</button>
+    </nav>
+    <div class="dots" aria-label="Slide dots"></div>
+  </div>
+
+  <div class="help-panel" aria-hidden="true" role="dialog" aria-label="Keyboard shortcuts">
+    <div class="help-card">
+      <h2>Keyboard shortcuts</h2>
+      <div class="help-grid">
+        <kbd>→</kbd><span>Next slide</span>
+        <kbd>↓</kbd><span>Next slide</span>
+        <kbd>D</kbd><span>Next slide</span>
+        <kbd>S</kbd><span>Next slide</span>
+        <kbd>←</kbd><span>Previous slide</span>
+        <kbd>↑</kbd><span>Previous slide</span>
+        <kbd>W</kbd><span>Previous slide</span>
+        <kbd>A</kbd><span>Previous slide</span>
+        <kbd>Space</kbd><span>Next slide</span>
+        <kbd>Home</kbd><span>First slide</span>
+        <kbd>End</kbd><span>Last slide</span>
+        <kbd>1</kbd>–<kbd>9</kbd><span>Jump to slide</span>
+        <kbd>F</kbd><span>Full page / fullscreen</span>
+        <kbd>?</kbd><span>This help panel</span>
+        <kbd>Esc</kbd><span>Exit fullscreen / close help</span>
+      </div>
+    </div>
+  </div>
+
+  <main class="deck" tabindex="0">
+    <div class="slides">
+
+      <!-- 1 Title -->
+      <section class="slide" aria-hidden="false">
+        <div class="slide__inner">
+          <p class="eyebrow">Research briefing · v1.6.1 · Jun 2026</p>
+          <h1>Vault CLM Discovery &amp; Compliance</h1>
+          <p class="lead">What I researched, what Vault still cannot see, and what I propose we build first: a narrow plugin that proves the certificate blind spot before we scope a full CLM platform.</p>
+          <div class="meta-row">
+            <span class="pill pill--accent">Release 1 wedge</span>
+            <span class="pill">SC-081 · PCI · APRA/ISM</span>
+            <span class="pill">Not a Venafi replacement</span>
+            <span class="pill">David Joo</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2 What I researched -->
+      <section class="slide" aria-hidden="true">
+        <div class="slide__inner">
+          <p class="eyebrow">Research scope</p>
+          <h2>What I researched</h2>
+          <p class="lead">A shared definition of enterprise CLM, regulatory pressure, where Vault Enterprise 2.0 helps, and where it stops.</p>
+          <div class="grid-2">
+            <div class="card">
+              <h3>CLM definition &amp; lifecycle</h3>
+              <ul>
+                <li>3-stage model: Inspect → Protect → Govern</li>
+                <li>9 detailed lifecycle stages (13 in full reference model)</li>
+                <li>Policy under Govern; API as platform requirement</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Regulation &amp; industry</h3>
+              <ul>
+                <li>CA/B SC-081v3 validity schedule (199-day issued today → ~47 days by 2029)</li>
+                <li>PCI 4.2.1.1 inventory, ISM, DORA, APRA CPS 234/230</li>
+                <li>Organisational impact: ~8× renewal load, failure window in days</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Vault capability map</h3>
+              <ul>
+                <li>PKI, ACME, Agent, HCP inventory (Vault-issued only)</li>
+                <li>Vault 2.0: PKI External CA, Agent ACME, billing metrics</li>
+                <li>Validated gaps vs Vault UI, API, GitHub #27249</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Competitive landscape</h3>
+              <ul>
+                <li>Venafi / Keyfactor / DigiCert TLM positioning</li>
+                <li>Vault-adjacent wedge — not rip-and-replace</li>
+                <li>Why not heavy IBM GRC stack for this problem</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3 CLM lifecycle: simple vs detailed -->
+      <section class="slide" aria-hidden="true">
+        <div class="slide__inner slide__inner--clm-rings">
+          <p class="eyebrow">CLM model</p>
+          <h2>Three rings: headline, cycle, and ongoing envelope</h2>
+          <p class="lead">Inner ring = executive view (3). Middle ring = operational cycle (9). Outer ring = always-on capabilities (10–13) that wrap the cycle — not a step-after-9 follow-on.</p>
+          <div class="clm-rings-layout">
+            <div class="clm-rings-layout__diagram">
+              <svg class="clm-rings" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet" role="img" aria-label="CLM lifecycle: inner 3 stages, middle 9 steps, outer 4 ongoing">
+                <!-- Outer ring · ongoing envelope -->
+                <circle class="clm-rings__track clm-rings__track--outer" cx="250" cy="250" r="112"/>
+                <path class="clm-rings__arc clm-rings__arc--outer" d="M 175.1 166.8 A 112 112 0 0 1 324.9 166.8"/>
+                <path class="clm-rings__arc clm-rings__arc--outer" d="M 333.2 175.1 A 112 112 0 0 1 333.2 324.9"/>
+                <path class="clm-rings__arc clm-rings__arc--outer" d="M 324.9 333.2 A 112 112 0 0 1 175.1 333.2"/>
+                <path class="clm-rings__arc clm-rings__arc--outer" d="M 166.8 324.9 A 112 112 0 0 1 166.8 175.1"/>
+                <text x="250" y="122" class="clm-rings__label clm-rings__label--outer">10</text>
+                <text x="378" y="250" class="clm-rings__label clm-rings__label--outer">11</text>
+                <text x="250" y="378" class="clm-rings__label clm-rings__label--outer">12</text>
+                <text x="122" y="250" class="clm-rings__label clm-rings__label--outer">13</text>
+
+                <!-- Middle ring · 9-step cycle -->
+                <circle class="clm-rings__track clm-rings__track--middle" cx="250" cy="250" r="84"/>
+                <path class="clm-rings__arc clm-rings__arc--mid" d="M 224.0 170.1 A 84 84 0 0 1 276.0 170.1"/>
+                <path class="clm-rings__arc clm-rings__arc--mid" d="M 281.5 172.1 A 84 84 0 0 1 321.2 205.5"/>
+                <path class="clm-rings__arc clm-rings__arc--mid" d="M 324.2 210.6 A 84 84 0 0 1 333.2 261.7"/>
+                <path class="clm-rings__arc clm-rings__arc--mid" d="M 332.2 267.5 A 84 84 0 0 1 306.2 312.4"/>
+                <path class="clm-rings__arc clm-rings__arc--mid" d="M 301.7 316.2 A 84 84 0 0 1 252.9 333.9"/>
+                <path class="clm-rings__arc clm-rings__arc--mid" d="M 247.1 333.9 A 84 84 0 0 1 198.3 316.2"/>
+                <path class="clm-rings__arc clm-rings__arc--mid" d="M 193.8 312.4 A 84 84 0 0 1 167.8 267.5"/>
+                <path class="clm-rings__arc clm-rings__arc--mid" d="M 166.8 261.7 A 84 84 0 0 1 175.8 210.6"/>
+                <path class="clm-rings__arc clm-rings__arc--mid" d="M 178.8 205.5 A 84 84 0 0 1 218.5 172.1"/>
+                <text x="250" y="154" class="clm-rings__label clm-rings__label--step">1</text>
+                <text x="312" y="176" class="clm-rings__label clm-rings__label--step">2</text>
+                <text x="345" y="233" class="clm-rings__label clm-rings__label--step">3</text>
+                <text x="333" y="298" class="clm-rings__label clm-rings__label--step">4</text>
+                <text x="283" y="340" class="clm-rings__label clm-rings__label--step">5</text>
+                <text x="217" y="340" class="clm-rings__label clm-rings__label--step">6</text>
+                <text x="167" y="298" class="clm-rings__label clm-rings__label--step">7</text>
+                <text x="155" y="233" class="clm-rings__label clm-rings__label--step">8</text>
+                <text x="188" y="176" class="clm-rings__label clm-rings__label--step">9</text>
+
+                <!-- Inner ring · Inspect / Protect / Govern -->
+                <circle class="clm-rings__track clm-rings__track--inner" cx="250" cy="250" r="56"/>
+                <path class="clm-rings__arc clm-rings__arc--inner clm-rings__arc--inspect" d="M 222.0 201.5 A 56 56 0 0 1 278.0 201.5"/>
+                <path class="clm-rings__arc clm-rings__arc--inner clm-rings__arc--protect" d="M 278.0 201.5 A 56 56 0 0 1 278.0 298.5"/>
+                <path class="clm-rings__arc clm-rings__arc--inner clm-rings__arc--govern" d="M 278.0 298.5 A 56 56 0 0 1 222.0 201.5"/>
+                <text x="250" y="182" class="clm-rings__label clm-rings__label--inner">Inspect</text>
+                <text x="318" y="250" class="clm-rings__label clm-rings__label--inner">Protect</text>
+                <text x="250" y="318" class="clm-rings__label clm-rings__label--inner">Govern</text>
+
+                <!-- Hub -->
+                <circle class="clm-rings__hub" cx="250" cy="250" r="26"/>
+                <g transform="translate(234 234) scale(0.62)" fill="#FFD814" fill-rule="nonzero" aria-hidden="true">
+                  <path d="M0,0 L25.4,51 L51,0 L0,0 Z M28.5,10.5 L31.5,10.5 L31.5,13.5 L28.5,13.5 Z M22.5,22.5 L19.5,22.5 L19.5,19.5 L22.5,19.5 Z M22.5,18 L19.5,18 L19.5,15 L22.5,15 Z M22.5,13.5 L19.5,13.5 L19.5,10.5 L22.5,10.5 Z M27,27 L24,27 L24,24 L27,24 Z M27,22.5 L24,22.5 L24,19.5 L27,19.5 Z M27,18 L24,18 L24,15 L27,15 Z M27,13.5 L24,13.5 L24,10.5 L27,10.5 Z M28.5,15 L31.5,15 L31.5,18 L28.5,18 Z M28.5,22.5 L28.5,19.5 L31.5,19.5 L31.5,22.5 Z"/>
+                </g>
+              </svg>
+              <div class="clm-rings__keys">
+                <span class="clm-rings__key"><i class="clm-rings__swatch clm-rings__swatch--outer"></i>Outer · ongoing</span>
+                <span class="clm-rings__key"><i class="clm-rings__swatch clm-rings__swatch--mid"></i>Middle · cycle</span>
+                <span class="clm-rings__key"><i class="clm-rings__swatch clm-rings__swatch--inner"></i>Inner · headline</span>
+              </div>
+            </div>
+            <div class="clm-rings-layout__legend">
+              <div class="ring-legend surface-card">
+                <h3 class="ring-legend__title">Ring model <span class="tag tag--vision">reference</span></h3>
+                <ul class="ring-legend__list">
+                  <li><span class="ring-legend__dot ring-legend__dot--inner"></span><strong>Inner</strong> Inspect · Protect · Govern</li>
+                  <li><span class="ring-legend__dot ring-legend__dot--mid"></span><strong>Middle</strong> Steps 1–9 operational cycle</li>
+                  <li><span class="ring-legend__dot ring-legend__dot--outer"></span><strong>Outer</strong> Steps 10–13 ongoing envelope</li>
+                </ul>
+              </div>
+              <div class="lifecycle-linear surface-card">
+                <p class="lifecycle-linear__heading">Middle ring · the cycle</p>
+                <div class="lifecycle-linear__cycle" role="list">
+                  <span role="listitem">1</span><span class="lifecycle-linear__sep" aria-hidden="true"></span>
+                  <span role="listitem">2</span><span class="lifecycle-linear__sep" aria-hidden="true"></span>
+                  <span role="listitem">3</span><span class="lifecycle-linear__sep" aria-hidden="true"></span>
+                  <span role="listitem">4</span><span class="lifecycle-linear__sep" aria-hidden="true"></span>
+                  <span role="listitem">5</span><span class="lifecycle-linear__sep" aria-hidden="true"></span>
+                  <span role="listitem">6</span><span class="lifecycle-linear__sep" aria-hidden="true"></span>
+                  <span role="listitem">7</span><span class="lifecycle-linear__sep" aria-hidden="true"></span>
+                  <span role="listitem">8</span><span class="lifecycle-linear__sep" aria-hidden="true"></span>
+                  <span role="listitem">9</span>
+                </div>
+                <p class="lifecycle-linear__heading">Outer ring · runs alongside (not after step 9)</p>
+                <div class="lifecycle-linear__ongoing">
+                  <div class="lifecycle-linear__ongoing-item"><span class="lifecycle-linear__tick">10</span><span>Change traceability</span></div>
+                  <div class="lifecycle-linear__ongoing-item"><span class="lifecycle-linear__tick">11</span><span>Status &amp; history</span></div>
+                  <div class="lifecycle-linear__ongoing-item"><span class="lifecycle-linear__tick">12</span><span>Report &amp; act</span></div>
+                  <div class="lifecycle-linear__ongoing-item"><span class="lifecycle-linear__tick">13</span><span>Import &amp; replace</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4 Problem SC-081 -->
+      <section class="slide" aria-hidden="true">
+        <div class="slide__inner slide__inner--sc081">
+          <p class="eyebrow">The problem</p>
+          <h2>Public TLS lifetimes are collapsing</h2>
+          <p class="lead">SC-081 caps how long public CAs may issue certs. Major CAs enforce ~199 days now. Manual annual renewal does not survive this curve.</p>
+          <div class="sc081-split">
+            <section class="sc081-split__panel">
+              <h3 class="sc081-split__heading">SC-081 validity schedule</h3>
+              <div class="timeline timeline--prominent">
+                <div class="timeline__step">
+                  <div class="timeline__date">Pre Mar 2026</div>
+                  <div class="timeline__val">398d</div>
+                  <div class="timeline__sub">~1 renewal / yr</div>
+                </div>
+                <div class="timeline__step is-now">
+                  <div class="timeline__date">Mar 2026</div>
+                  <div class="timeline__val">199d</div>
+                  <div class="timeline__sub">~2 / yr · now</div>
+                </div>
+                <div class="timeline__step">
+                  <div class="timeline__date">Mar 2027</div>
+                  <div class="timeline__val">100d</div>
+                  <div class="timeline__sub">~4 / yr</div>
+                </div>
+                <div class="timeline__step">
+                  <div class="timeline__date">Mar 2029</div>
+                  <div class="timeline__val">47d</div>
+                  <div class="timeline__sub">~8 / yr · 10d DCV</div>
+                </div>
+              </div>
+            </section>
+            <section class="sc081-split__panel">
+              <h3 class="sc081-split__heading">Operational impact</h3>
+              <div class="impact-row">
+                <div class="impact-card impact-card--danger">
+                  <h4 class="impact-card__title">TLS fail</h4>
+                  <p class="impact-card__body">Expired public cert → handshake fails → login, payments, APIs down</p>
+                </div>
+                <div class="impact-card impact-card--warn">
+                  <h4 class="impact-card__title">~8× renewal load</h4>
+                  <p class="impact-card__body">Renewal events per cert by 2029 — spreadsheets and calendar reminders break</p>
+                </div>
+                <div class="impact-card impact-card--neutral">
+                  <h4 class="impact-card__title">PCI 4.2.1.1</h4>
+                  <p class="impact-card__body">Inventory of certs + keys already mandatory; timely renewal is auditable</p>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5 Vault in the 9-step lifecycle -->
+      <section class="slide" aria-hidden="true">
+        <div class="slide__inner slide__inner--vault-map">
+          <p class="eyebrow">Credit where due</p>
+          <h2>Where Vault fits in the 9-step lifecycle</h2>
+          <p class="lead">Vault is a strong <strong>operate</strong> plane for certs it manages — not an inspect or CLM-govern layer for the full estate.</p>
+          <div class="vault-map">
+            <!-- 9 steps in a single horizontal line -->
+            <div class="lifecycle-line" aria-label="Nine-step certificate lifecycle">
+              <div class="lifecycle-line__step"><span class="lifecycle-line__num">1</span><span class="lifecycle-line__label">Discovery</span></div>
+              <div class="lifecycle-line__connector" aria-hidden="true"></div>
+              <div class="lifecycle-line__step"><span class="lifecycle-line__num">2</span><span class="lifecycle-line__label">Classify</span></div>
+              <div class="lifecycle-line__connector" aria-hidden="true"></div>
+              <div class="lifecycle-line__step"><span class="lifecycle-line__num">3</span><span class="lifecycle-line__label">Assess</span></div>
+              <div class="lifecycle-line__connector" aria-hidden="true"></div>
+              <div class="lifecycle-line__step"><span class="lifecycle-line__num">4</span><span class="lifecycle-line__label">Govern</span></div>
+              <div class="lifecycle-line__connector" aria-hidden="true"></div>
+              <div class="lifecycle-line__step"><span class="lifecycle-line__num">5</span><span class="lifecycle-line__label">Issue</span></div>
+              <div class="lifecycle-line__connector" aria-hidden="true"></div>
+              <div class="lifecycle-line__step"><span class="lifecycle-line__num">6</span><span class="lifecycle-line__label">Deploy</span></div>
+              <div class="lifecycle-line__connector" aria-hidden="true"></div>
+              <div class="lifecycle-line__step"><span class="lifecycle-line__num">7</span><span class="lifecycle-line__label">Monitor</span></div>
+              <div class="lifecycle-line__connector" aria-hidden="true"></div>
+              <div class="lifecycle-line__step"><span class="lifecycle-line__num">8</span><span class="lifecycle-line__label">Renew</span></div>
+              <div class="lifecycle-line__connector" aria-hidden="true"></div>
+              <div class="lifecycle-line__step"><span class="lifecycle-line__num">9</span><span class="lifecycle-line__label">Revoke</span></div>
+            </div>
+
+            <!-- Vault coverage mapped to the same line -->
+            <div class="vault-coverage vault-coverage--9">
+              <div class="vault-coverage__zone vault-coverage__zone--gap">
+                <span>No Vault</span>
+              </div>
+              <div class="vault-coverage__zone vault-coverage__zone--strong">
+                <span class="vault-coverage__arrow vault-coverage__arrow--l" aria-hidden="true">←</span>
+                <svg class="vault-coverage__mark vault-coverage__mark--lg" viewBox="0 0 51 51" aria-hidden="true"><path fill="currentColor" d="M0,0 L25.4,51 L51,0 L0,0 Z M28.5,10.5 L31.5,10.5 L31.5,13.5 L28.5,13.5 Z M22.5,22.5 L19.5,22.5 L19.5,19.5 L22.5,19.5 Z M22.5,18 L19.5,18 L19.5,15 L22.5,15 Z M22.5,13.5 L19.5,13.5 L19.5,10.5 L22.5,10.5 Z M27,27 L24,27 L24,24 L27,24 Z M27,22.5 L24,22.5 L24,19.5 L27,19.5 Z M27,18 L24,18 L24,15 L27,15 Z M27,13.5 L24,13.5 L24,10.5 L27,10.5 Z M28.5,15 L31.5,15 L31.5,18 L28.5,18 Z M28.5,22.5 L28.5,19.5 L31.5,19.5 L31.5,22.5 Z"/></svg>
+                <span>Vault</span>
+                <span class="vault-coverage__arrow vault-coverage__arrow--r" aria-hidden="true">→</span>
+              </div>
+              <div class="vault-coverage__zone vault-coverage__zone--partial">
+                <svg class="vault-coverage__mark" viewBox="0 0 51 51" aria-hidden="true"><path fill="currentColor" d="M0,0 L25.4,51 L51,0 L0,0 Z M28.5,10.5 L31.5,10.5 L31.5,13.5 L28.5,13.5 Z M22.5,22.5 L19.5,22.5 L19.5,19.5 L22.5,19.5 Z M22.5,18 L19.5,18 L19.5,15 L22.5,15 Z M22.5,13.5 L19.5,13.5 L19.5,10.5 L22.5,10.5 Z M27,27 L24,27 L24,24 L27,24 Z M27,22.5 L24,22.5 L24,19.5 L27,19.5 Z M27,18 L24,18 L24,15 L27,15 Z M27,13.5 L24,13.5 L24,10.5 L27,10.5 Z M28.5,15 L31.5,15 L31.5,18 L28.5,18 Z M28.5,22.5 L28.5,19.5 L31.5,19.5 L31.5,22.5 Z"/></svg>
+                <span>Vault <em>(partial)</em></span>
+              </div>
+            </div>
+            <div class="vault-coverage__steps-hint vault-coverage__steps-hint--9" aria-hidden="true">
+              <span>Steps 1–4 · Inspect + CLM govern</span>
+              <span>Steps 5–6 · Operate</span>
+              <span>Steps 7–9 · Monitor, renew, revoke</span>
+            </div>
+
+            <!-- Where Vault is today -->
+            <div class="vault-position">
+              <h3 class="vault-position__title">Where Vault is today</h3>
+              <div class="vault-position__cols vault-position__cols--9">
+                <div class="vault-position__col vault-position__col--gap">
+                  <h4>Steps 1–4 <span class="tag tag--gap">no Vault</span></h4>
+                  <p><strong>1–3:</strong> No estate discovery, classification, or risk scoring — HCP inventory is Vault-issued only.<br><strong>4:</strong> PKI roles/ACL scope issuance, but no CLM policy engine (no Org→Team rules, no report→act govern loop).</p>
+                </div>
+                <div class="vault-position__col vault-position__col--strong">
+                  <h4>Steps 5–6 · Operate <span class="tag tag--r1">strong</span></h4>
+                  <p>Issue/enroll (PKI, ACME, SCEP, EST, External CA) and deploy (Agent templates) — for workloads already on Vault. This is where Vault earns its keep.</p>
+                </div>
+                <div class="vault-position__col vault-position__col--partial">
+                  <h4>Steps 7–9 <span class="tag">partial</span></h4>
+                  <p><strong>7 Monitor:</strong> audit logs + HCP views — not estate-wide alerting.<br><strong>8–9 Renew/revoke:</strong> strong for Vault-managed / ACME paths only; no orchestration for shadow or external certs on unintegrated systems.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6 What's missing -->
+      <section class="slide" aria-hidden="true">
+        <div class="slide__inner">
+          <p class="eyebrow">The gap</p>
+          <h2>What is missing today</h2>
+          <p class="lead">Enterprises hurt where Vault has no estate view: shadow certs on LBs, legacy apps, third-party public CAs, orphaned installs.</p>
+          <div class="grid-2">
+            <div class="card card--danger">
+              <h3>No discovery</h3>
+              <p>Network TLS scan, cloud LB APIs, CT correlation — not in Vault core</p>
+            </div>
+            <div class="card card--danger">
+              <h3>No human-readable inventory</h3>
+              <p>Service, endpoint, owner — not serial / key_id / mount path</p>
+            </div>
+            <div class="card card--danger">
+              <h3>No standards reporting</h3>
+              <p>SC-081, PCI, ISM packs; baseline + delta posture reports</p>
+            </div>
+            <div class="card card--danger">
+              <h3>No CLM orchestration loop</h3>
+              <p>Report → Act → Operate → Evidence for the full estate</p>
+            </div>
+          </div>
+          <div class="compare" style="margin-top: 1.5rem;">
+            <div class="compare__col">
+              <h3>Vault sees</h3>
+              <ul>
+                <li>Certs Vault PKI issued</li>
+                <li>Grouped by mount, role, serial</li>
+                <li>Good for issuance audit</li>
+              </ul>
+            </div>
+            <div class="compare__col">
+              <h3>Blind spot</h3>
+              <ul>
+                <li>Public TLS on cloud LBs / CDN</li>
+                <li>Legacy manual installs</li>
+                <li>AD CS / third-party CA certs</li>
+                <li>Acquired systems, shadow IT</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6 Blind spot reveal -->
+      <section class="slide" aria-hidden="true">
+        <div class="slide__inner">
+          <p class="eyebrow">POV opening · ten seconds</p>
+          <h2>The blind-spot reveal</h2>
+          <p class="lead">The proof point: one scan, three numbers, one standards report.</p>
+          <div class="blind-spot">
+            <div class="blind-spot__box blind-spot__box--vault">
+              <div class="blind-spot__num" id="demo-vault">847</div>
+              <div class="blind-spot__label">Certs Vault knows about</div>
+            </div>
+            <div class="blind-spot__arrow">+</div>
+            <div class="blind-spot__box blind-spot__box--shadow">
+              <div class="blind-spot__num" id="demo-shadow">1,204</div>
+              <div class="blind-spot__label">Shadow certs discovered</div>
+            </div>
+          </div>
+          <div class="grid-3">
+            <div class="card card--warn">
+              <div class="stat">23</div>
+              <div class="stat-label">SC-081 violations</div>
+            </div>
+            <div class="card card--warn">
+              <div class="stat">14</div>
+              <div class="stat-label">Untagged prod certs</div>
+            </div>
+            <div class="card card--danger">
+              <div class="stat">6</div>
+              <div class="stat-label">Expiring &lt; 30 days</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7 Wedge positioning -->
+      <section class="slide" aria-hidden="true">
+        <div class="slide__inner">
+          <p class="eyebrow">Positioning</p>
+          <h2>Not Venafi. Close the Vault blind spot.</h2>
+          <p class="lead">Narrow wedge for Vault-standardised estates with shadow certs. Same token, namespace, audit model.</p>
+          <div class="grid-2">
+            <div class="card">
+              <h3>We are not</h3>
+              <ul>
+                <li>Rebuilding Venafi / Keyfactor / full enterprise CLM</li>
+                <li>Selling IBM Verify / Guardium / Concert for this problem</li>
+                <li>Replacing public CAs or competing as a CA</li>
+              </ul>
+            </div>
+            <div class="card card--highlight">
+              <h3>We are</h3>
+              <ul>
+                <li>Vault-adjacent discovery + compliance layer</li>
+                <li>Human-readable estate inventory + SC-081/PCI reports</li>
+                <li>Path to migrate shadow certs via Vault PKI / External CA (Release 2)</li>
+              </ul>
+            </div>
+          </div>
+          <blockquote class="ask-box" style="margin-top: 1.25rem;">
+            <p>"We are not rebuilding Venafi. We close the Vault blind spot: certs Vault did not issue, in audit language, remediated through Vault PKI / External CA / Agent."</p>
+          </blockquote>
+        </div>
+      </section>
+
+      <!-- 8 Release 1 -->
+      <section class="slide" aria-hidden="true">
+        <div class="slide__inner">
+          <p class="eyebrow">Commitment</p>
+          <h2>Release 1 — committed scope</h2>
+          <p class="lead">Scan the estate, show what Vault cannot see, report SC-081/PCI violations, alert. Prove the blind spot.</p>
+          <table class="compact">
+            <thead>
+              <tr><th>Release 1 (committed)</th><th>Release 2+ (vision — do not scope now)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="tag tag--r1">R1</span> TLS + cloud LB + K8s discovery</td><td><span class="tag tag--vision">R2+</span> Credentialed store agents, appliances</td></tr>
+              <tr><td><span class="tag tag--r1">R1</span> Human-readable inventory</td><td><span class="tag tag--vision">R2+</span> Full entity resolution, CMDB</td></tr>
+              <tr><td><span class="tag tag--r1">R1</span> SC-081 + PCI reports + algorithm inventory</td><td><span class="tag tag--vision">R2+</span> Operate loop, OPA, NL policy</td></tr>
+              <tr><td><span class="tag tag--r1">R1</span> Alert + webhook + audit v1 + API read</td><td><span class="tag tag--vision">R2+</span> Import &amp; replace, ITSM, Terraform</td></tr>
+            </tbody>
+          </table>
+          <div class="card card--warn" style="margin-top: 1rem;">
+            <h3>Explicitly out of Release 1</h3>
+            <p>Operate (issue/renew/revoke), policy engine, import &amp; replace workflow, ITSM, fine-grained operate RBAC</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9 Discovery scope -->
+      <section class="slide" aria-hidden="true">
+        <div class="slide__inner">
+          <p class="eyebrow">Honest scope</p>
+          <h2>Discovery: in, deferred, out</h2>
+          <p class="lead">Experts will ask about credentialed stores and non-listening certs. Name the boundary up front.</p>
+          <table class="compact">
+            <thead>
+              <tr><th>Source</th><th>Release 1</th><th>Later / partner</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>TLS network scan</td><td>Yes</td><td>—</td></tr>
+              <tr><td>Cloud LB APIs (AWS, GCP, Azure)</td><td>Yes</td><td>Niche LBs</td></tr>
+              <tr><td>K8s secrets / cert-manager</td><td>Yes</td><td>—</td></tr>
+              <tr><td>CT log correlation</td><td>Yes</td><td>CT streaming at scale</td></tr>
+              <tr><td>Windows / Java / IIS cert stores</td><td>No</td><td>R2 agent or partner</td></tr>
+              <tr><td>Code-signing, S/MIME, mesh SVIDs</td><td>No</td><td>Deferred</td></tr>
+            </tbody>
+          </table>
+          <div class="card" style="margin-top: 1rem;">
+            <h3>Dedup is hard — we are honest about it</h3>
+            <p>Release 1 uses endpoint + SPKI + SAN heuristics with <code>possible_duplicate</code> and <code>needs_review</code>. No silent auto-merge.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10 Cost of nothing -->
+      <section class="slide" aria-hidden="true">
+        <div class="slide__inner">
+          <p class="eyebrow">Operational risk</p>
+          <h2>Cost of doing nothing</h2>
+          <p class="lead">Ignoring the blind spot is not neutral: outage risk, audit failure, and manual work the organisation cannot scale to SC-081.</p>
+          <div class="grid-2">
+            <div class="card card--danger">
+              <h3>If we do nothing</h3>
+              <ul>
+                <li>Expired cert → TLS fails on customer paths</li>
+                <li>~8,000 manual hours/yr for 500 public certs by 2029 (~4 FTE)</li>
+                <li>PCI inventory gap; APRA timely-renewal findings</li>
+                <li>Unknown certs extend incident MTTR</li>
+                <li>Vault inventory covers managed subset only</li>
+              </ul>
+            </div>
+            <div class="card card--success">
+              <h3>With plugin + Vault</h3>
+              <ul>
+                <li>Continuous discovery + delta reports</li>
+                <li>Human-readable estate + Vault correlation</li>
+                <li>SC-081/PCI evidence from day one</li>
+                <li>Release 2: automate renew via PKI / External CA</li>
+              </ul>
+            </div>
+          </div>
+          <div class="grid-3" style="margin-top: 1rem;">
+            <div class="card">
+              <div class="stat">500 → 4,000</div>
+              <div class="stat-label">Renewal events / year (500 certs)</div>
+            </div>
+            <div class="card">
+              <div class="stat">1% – 8%</div>
+              <div class="stat-label">Outage probability range (your data)</div>
+            </div>
+            <div class="card">
+              <div class="stat">FTE load</div>
+              <div class="stat-label">Manual renewal capacity breaks by 2029</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 11 What I want to do -->
+      <section class="slide" aria-hidden="true">
+        <div class="slide__inner">
+          <p class="eyebrow">Next steps</p>
+          <h2>What I want to do with the CLM-discovery plugin</h2>
+          <p class="lead">Working name: <strong>Vault CLM Discovery &amp; Compliance</strong> — Vault-adjacent add-on, not a replacement CA.</p>
+          <ol class="actions">
+            <li><strong>Build the blind-spot reveal demo</strong> — Vault count vs discovered count + SC-081 violations (CLM-discovery prototype)</li>
+            <li><strong>Freeze Release 1 scope</strong> — discovery, inventory, reports, alert, audit, API read. No operate, no policy engine in v1.</li>
+            <li><strong>Publish OpenAPI v1</strong> — inventory, reports, audit, webhooks; Vault token auth; async scan jobs</li>
+            <li><strong>Spec dedup model</strong> — endpoint + SPKI + SAN; explicit review states</li>
+            <li><strong>Pilot customer profile</strong> — Vault-heavy ANZ FSI or gov, hybrid estate, known shadow certs</li>
+            <li><strong>Release 2 backlog</strong> — import &amp; replace, operate loop, policy engine (after Release 1 proof)</li>
+          </ol>
+          <div class="grid-2" style="margin-top: 1rem;">
+            <div class="card">
+              <h3>Release 2 vision</h3>
+              <p>Import &amp; replace, operate via Vault PKI / External CA, policy YAML → OPA, audit chain to Vault request_id</p>
+            </div>
+            <div class="card">
+              <h3>Release 3 vision</h3>
+              <p>CMDB sync, LB deploy hooks, DORA/APRA templates, PQC readiness packs</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 13 Summary -->
+      <section class="slide" aria-hidden="true">
+        <div class="slide__inner">
+          <p class="eyebrow">Summary</p>
+          <h2>Research conclusion</h2>
+          <div class="ask-box">
+            <p>Enterprise CLM is more than Inspect → Protect → Govern. Vault is strong as CA and secrets platform, but blind to certs it did not issue. <strong>Release 1</strong> should prove that gap: discover, inventory, SC-081/PCI reports, alert — before we scope operate, policy engine, or Venafi parity.</p>
+          </div>
+          <div class="grid-3" style="margin-top: 1.5rem;">
+            <div class="card card--highlight">
+              <h3>Prove</h3>
+              <p>Blind-spot reveal demo on a hybrid estate</p>
+            </div>
+            <div class="card card--highlight">
+              <h3>Ship</h3>
+              <p>Discovery, human-readable inventory, standards reports</p>
+            </div>
+            <div class="card card--highlight">
+              <h3>Defer</h3>
+              <p>Operate loop, policy engine, import &amp; replace to Release 2+</p>
+            </div>
+          </div>
+          <p class="slide-links">
+            Research docs:
+            <a href="../../doc/certificate-lifecycle-management-research-report.md">full report</a> ·
+            <a href="../../doc/03-vault-gap-and-plugin.md">plugin spec</a> ·
+            <a href="../../doc/certs-management-for-dummies.md">PKI primer</a>
+          </p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="assets/js/briefing.js"></script>
+</body>
+</html>
