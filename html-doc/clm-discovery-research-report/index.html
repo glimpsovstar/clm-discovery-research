@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CLM Discovery Plugin — Research Briefing</title>
+  <title>CLM Discovery Plugin: Research Briefing</title>
   <meta name="description" content="Research briefing: Vault CLM gap, blind spot, and Release 1 plugin wedge." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -63,21 +63,19 @@
         <div class="slide__inner">
           <p class="eyebrow">Research briefing · v1.6.1 · Jun 2026</p>
           <h1>Vault CLM Discovery &amp; Compliance</h1>
-          <p class="lead">What I researched, what Vault still cannot see, and what I propose we build first: a narrow plugin that proves the certificate blind spot before we scope a full CLM platform.</p>
+          <p class="lead">We mapped enterprise CLM, where Vault helps, and where it doesn't. First build: a narrow plugin that shows certs Vault never issued. A full CLM platform can wait until after that proof.</p>
           <div class="meta-row">
             <span class="pill pill--accent">Release 1 wedge</span>
             <span class="pill">SC-081 · PCI · APRA/ISM</span>
-            <span class="pill">Not a Venafi replacement</span>
-            <span class="pill">David Joo</span>
           </div>
         </div>
       </section>
 
-      <!-- 2 What I researched -->
+      <!-- 2 What's been researched -->
       <section class="slide" aria-hidden="true">
         <div class="slide__inner">
           <p class="eyebrow">Research scope</p>
-          <h2>What I researched</h2>
+          <h2>What's been researched</h2>
           <p class="lead">A shared definition of enterprise CLM, regulatory pressure, where Vault Enterprise 2.0 helps, and where it stops.</p>
           <div class="grid-2">
             <div class="card">
@@ -105,10 +103,10 @@
               </ul>
             </div>
             <div class="card">
-              <h3>Competitive landscape</h3>
+              <h3>Competitors</h3>
               <ul>
                 <li>Venafi / Keyfactor / DigiCert TLM positioning</li>
-                <li>Vault-adjacent wedge — not rip-and-replace</li>
+                <li>Vault-adjacent wedge; not a rip-and-replace play</li>
                 <li>Why not heavy IBM GRC stack for this problem</li>
               </ul>
             </div>
@@ -121,7 +119,7 @@
         <div class="slide__inner slide__inner--clm-rings">
           <p class="eyebrow">CLM model</p>
           <h2>Three rings: headline, cycle, and ongoing envelope</h2>
-          <p class="lead">Inner ring = executive view (3). Middle ring = operational cycle (9). Outer ring = always-on capabilities (10–13) that wrap the cycle — not a step-after-9 follow-on.</p>
+          <p class="lead">Inner ring: three headline stages (Inspect, Protect, Govern). Middle ring: the nine-step operational cycle. Outer ring: steps 10–13 run alongside the cycle; they are not "step 10 after step 9."</p>
           <div class="clm-rings-layout">
             <div class="clm-rings-layout__diagram">
               <svg class="clm-rings" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet" role="img" aria-label="CLM lifecycle: inner 3 stages, middle 9 steps, outer 4 ongoing">
@@ -254,7 +252,7 @@
                 </div>
                 <div class="impact-card impact-card--warn">
                   <h4 class="impact-card__title">~8× renewal load</h4>
-                  <p class="impact-card__body">Renewal events per cert by 2029 — spreadsheets and calendar reminders break</p>
+                  <p class="impact-card__body">Renewal events per cert by 2029. Spreadsheets and calendar reminders stop working.</p>
                 </div>
                 <div class="impact-card impact-card--neutral">
                   <h4 class="impact-card__title">PCI 4.2.1.1</h4>
@@ -271,7 +269,7 @@
         <div class="slide__inner slide__inner--vault-map">
           <p class="eyebrow">Credit where due</p>
           <h2>Where Vault fits in the 9-step lifecycle</h2>
-          <p class="lead">Vault is a strong <strong>operate</strong> plane for certs it manages — not an inspect or CLM-govern layer for the full estate.</p>
+          <p class="lead">Vault is good at <strong>operate</strong> for certs it already manages. It is not your inspect layer or CLM govern layer for the whole estate.</p>
           <div class="vault-map">
             <!-- 9 steps in a single horizontal line -->
             <div class="lifecycle-line" aria-label="Nine-step certificate lifecycle">
@@ -322,15 +320,15 @@
               <div class="vault-position__cols vault-position__cols--9">
                 <div class="vault-position__col vault-position__col--gap">
                   <h4>Steps 1–4 <span class="tag tag--gap">no Vault</span></h4>
-                  <p><strong>1–3:</strong> No estate discovery, classification, or risk scoring — HCP inventory is Vault-issued only.<br><strong>4:</strong> PKI roles/ACL scope issuance, but no CLM policy engine (no Org→Team rules, no report→act govern loop).</p>
+                  <p><strong>1–3:</strong> No estate discovery, classification, or risk scoring. HCP inventory covers Vault-issued certs only.<br><strong>4:</strong> PKI roles/ACL scope issuance, but no CLM policy engine (no Org→Team rules, no report→act govern loop).</p>
                 </div>
                 <div class="vault-position__col vault-position__col--strong">
                   <h4>Steps 5–6 · Operate <span class="tag tag--r1">strong</span></h4>
-                  <p>Issue/enroll (PKI, ACME, SCEP, EST, External CA) and deploy (Agent templates) — for workloads already on Vault. This is where Vault earns its keep.</p>
+                  <p>Issue/enroll (PKI, ACME, SCEP, EST, External CA) and deploy (Agent templates) for workloads already on Vault. This is where Vault earns its keep.</p>
                 </div>
                 <div class="vault-position__col vault-position__col--partial">
                   <h4>Steps 7–9 <span class="tag">partial</span></h4>
-                  <p><strong>7 Monitor:</strong> audit logs + HCP views — not estate-wide alerting.<br><strong>8–9 Renew/revoke:</strong> strong for Vault-managed / ACME paths only; no orchestration for shadow or external certs on unintegrated systems.</p>
+                  <p><strong>7 Monitor:</strong> audit logs and HCP views; no estate-wide alerting.<br><strong>8–9 Renew/revoke:</strong> strong on Vault-managed and ACME paths; no orchestration for shadow or external certs on unintegrated systems.</p>
                 </div>
               </div>
             </div>
@@ -346,20 +344,20 @@
           <p class="lead">Enterprises hurt where Vault has no estate view: shadow certs on LBs, legacy apps, third-party public CAs, orphaned installs.</p>
           <div class="grid-2">
             <div class="card card--danger">
-              <h3>No discovery</h3>
-              <p>Network TLS scan, cloud LB APIs, CT correlation — not in Vault core</p>
+              <h3>Discovery gap</h3>
+              <p>No network TLS scan, cloud LB APIs, or CT correlation in Vault core</p>
             </div>
             <div class="card card--danger">
-              <h3>No human-readable inventory</h3>
-              <p>Service, endpoint, owner — not serial / key_id / mount path</p>
+              <h3>Inventory gap</h3>
+              <p>Operators see serial, key_id, and mount path; not service, endpoint, or owner</p>
             </div>
             <div class="card card--danger">
-              <h3>No standards reporting</h3>
-              <p>SC-081, PCI, ISM packs; baseline + delta posture reports</p>
+              <h3>Reporting gap</h3>
+              <p>No SC-081, PCI, or ISM packs; no baseline or delta posture reports</p>
             </div>
             <div class="card card--danger">
-              <h3>No CLM orchestration loop</h3>
-              <p>Report → Act → Operate → Evidence for the full estate</p>
+              <h3>Orchestration gap</h3>
+              <p>No report → act → operate → evidence loop for the full estate</p>
             </div>
           </div>
           <div class="compare" style="margin-top: 1.5rem;">
@@ -452,11 +450,11 @@
       <section class="slide" aria-hidden="true">
         <div class="slide__inner">
           <p class="eyebrow">Commitment</p>
-          <h2>Release 1 — committed scope</h2>
+          <h2>Release 1: committed scope</h2>
           <p class="lead">Scan the estate, show what Vault cannot see, report SC-081/PCI violations, alert. Prove the blind spot.</p>
           <table class="compact">
             <thead>
-              <tr><th>Release 1 (committed)</th><th>Release 2+ (vision — do not scope now)</th></tr>
+              <tr><th>Release 1 (committed)</th><th>Release 2+ (vision; do not scope now)</th></tr>
             </thead>
             <tbody>
               <tr><td><span class="tag tag--r1">R1</span> TLS + cloud LB + K8s discovery</td><td><span class="tag tag--vision">R2+</span> Credentialed store agents, appliances</td></tr>
@@ -492,7 +490,7 @@
             </tbody>
           </table>
           <div class="card" style="margin-top: 1rem;">
-            <h3>Dedup is hard — we are honest about it</h3>
+            <h3>Dedup is hard (we say so upfront)</h3>
             <p>Release 1 uses endpoint + SPKI + SAN heuristics with <code>possible_duplicate</code> and <code>needs_review</code>. No silent auto-merge.</p>
           </div>
         </div>
@@ -542,19 +540,19 @@
         </div>
       </section>
 
-      <!-- 11 What I want to do -->
+      <!-- 11 Next steps -->
       <section class="slide" aria-hidden="true">
         <div class="slide__inner">
           <p class="eyebrow">Next steps</p>
-          <h2>What I want to do with the CLM-discovery plugin</h2>
-          <p class="lead">Working name: <strong>Vault CLM Discovery &amp; Compliance</strong> — Vault-adjacent add-on, not a replacement CA.</p>
+          <h2>Proposed next steps for the CLM-discovery plugin</h2>
+          <p class="lead">Working name: <strong>Vault CLM Discovery &amp; Compliance</strong>. Vault-adjacent add-on, not a replacement CA.</p>
           <ol class="actions">
-            <li><strong>Build the blind-spot reveal demo</strong> — Vault count vs discovered count + SC-081 violations (CLM-discovery prototype)</li>
-            <li><strong>Freeze Release 1 scope</strong> — discovery, inventory, reports, alert, audit, API read. No operate, no policy engine in v1.</li>
-            <li><strong>Publish OpenAPI v1</strong> — inventory, reports, audit, webhooks; Vault token auth; async scan jobs</li>
-            <li><strong>Spec dedup model</strong> — endpoint + SPKI + SAN; explicit review states</li>
-            <li><strong>Pilot customer profile</strong> — Vault-heavy ANZ FSI or gov, hybrid estate, known shadow certs</li>
-            <li><strong>Release 2 backlog</strong> — import &amp; replace, operate loop, policy engine (after Release 1 proof)</li>
+            <li><strong>Build the blind-spot reveal demo.</strong> Vault count vs discovered count plus SC-081 violations (CLM-discovery prototype).</li>
+            <li><strong>Freeze Release 1 scope.</strong> Discovery, inventory, reports, alert, audit, API read. No operate or policy engine in v1.</li>
+            <li><strong>Publish OpenAPI v1.</strong> Inventory, reports, audit, webhooks; Vault token auth; async scan jobs.</li>
+            <li><strong>Spec dedup model.</strong> Endpoint + SPKI + SAN; explicit review states.</li>
+            <li><strong>Pilot customer profile.</strong> Vault-heavy ANZ FSI or gov, hybrid estate, known shadow certs.</li>
+            <li><strong>Release 2 backlog.</strong> Import &amp; replace, operate loop, policy engine (after Release 1 proof).</li>
           </ol>
           <div class="grid-2" style="margin-top: 1rem;">
             <div class="card">
@@ -575,7 +573,7 @@
           <p class="eyebrow">Summary</p>
           <h2>Research conclusion</h2>
           <div class="ask-box">
-            <p>Enterprise CLM is more than Inspect → Protect → Govern. Vault is strong as CA and secrets platform, but blind to certs it did not issue. <strong>Release 1</strong> should prove that gap: discover, inventory, SC-081/PCI reports, alert — before we scope operate, policy engine, or Venafi parity.</p>
+            <p>CLM is bigger than Inspect → Protect → Govern. Vault issues and stores certs well; it still cannot see what it did not issue. <strong>Release 1</strong> should prove that: discover, inventory, SC-081/PCI reports, alerts. Operate, policy engine, and Venafi parity can wait.</p>
           </div>
           <div class="grid-3" style="margin-top: 1.5rem;">
             <div class="card card--highlight">
@@ -593,6 +591,7 @@
           </div>
           <p class="slide-links">
             Research docs:
+            <a href="../../doc/01-executive-brief.md">executive brief</a> ·
             <a href="../../doc/certificate-lifecycle-management-research-report.md">full report</a> ·
             <a href="../../doc/03-vault-gap-and-plugin.md">plugin spec</a> ·
             <a href="../../doc/certs-management-for-dummies.md">PKI primer</a>

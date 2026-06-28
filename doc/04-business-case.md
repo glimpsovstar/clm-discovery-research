@@ -12,9 +12,7 @@
 
 Public TLS certificate lifetimes are dropping to 47 days by 2029. Renewal frequency roughly **8×** current levels. Domain validation reuse drops to **10 days**. Most enterprises cannot produce a complete certificate inventory today. Manual renewal and spreadsheet tracking will cause outages and audit findings.
 
-**Cost of inaction:** **§8.5** — outage risk, compliance failure (PCI inventory already mandatory), operational load manual teams cannot absorb. **Procurement worksheet:** **§8.6**. **What the rules mean organisationally:** **§3.1.1**.
-
-Vault customers already trust HashiCorp for secrets and PKI. They still have **large blind spots** outside Vault-managed issuance — legacy apps, cloud LBs, third-party public CAs, acquired systems, and shadow IT.
+Vault customers already trust HashiCorp for secrets and PKI. They still have **large blind spots** outside Vault-managed issuance: legacy apps, cloud LBs, third-party public CAs, acquired systems, and shadow IT.
 
 ### 8.2 Why now
 
@@ -105,7 +103,7 @@ We do not cite specific dollar figures here (outage cost varies enormously by in
 | Vault sees Vault-issued only | Unified human-readable estate + Vault correlation |
 | 8× manual renewals by 2029 | Automated operate path via Vault PKI / External CA / Agent |
 
-**Executive one-liner:** Doing nothing still has a cost: outage risk, audit failure, and roughly 8× renewal load on a fixed calendar, while most organisations still cannot list their certificates.
+**In short:** Doing nothing still has a cost: outage risk, audit failure, and roughly 8× renewal load on a fixed calendar, while most organisations still cannot list their certificates.
 
 See also **§3.1.1** (what the rules mean organisationally), **§8.1–8.2** (problem statement and timing), and **§8.6** (ROI worksheet for procurement).
 

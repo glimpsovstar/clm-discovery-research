@@ -4,7 +4,7 @@
 **Audience:** Architects, GRC, compliance, product  
 **See also:** [Executive brief](./01-executive-brief.md) · [Vault gap & plugin](./03-vault-gap-and-plugin.md) · [PKI primer](./certs-management-for-dummies.md)
 
-This document defines what enterprise CLM is, what is changing in regulation (including SC-081), and the full lifecycle stage model. It is **reference material**, not Release 1 funding scope (see [Release 1 commitment](./03-vault-gap-and-plugin.md#release-1-commitment-vs-product-vision)).
+This document defines what enterprise CLM is, what is changing in regulation (including SC-081), and the full lifecycle stage model. It is **reference material**, not Release 1 commitment (see [Release 1 commitment](./03-vault-gap-and-plugin.md#90-release-1-commitment-vs-product-vision)).
 
 ---
 
@@ -977,7 +977,7 @@ API-first does not mean "hard to use." Pair the API with:
 
 ---
 
-## What is changing: rules and governance landscape
+## What is changing: rules and governance
 
 ### 3.1 The hard deadline: CA/B Forum SC-081v3
 

@@ -3,7 +3,7 @@
 ### 1.6.1 · 27 Jun 2026 · David Joo
 
 - §9.0 Release 1 commitment vs product vision — ruthless wedge fence; policy/operate moved to Release 2+ vision
-- §6.4 internal funding rationale — Vault product sponsor; explicit **not** IBM Verify/Guardium/Concert (operational/architectural weight)
+- §6.4 product sponsor rationale — Vault product sponsor; explicit **not** IBM Verify/Guardium/Concert (operational/architectural weight)
 - §6.0 billing fix — `sys/billing/certificates` vs `normalized_external_ca_cert_units` (via `sys/billing/overview`)
 - §8.6 payback — outage probability ranges; FTE/audit-led defensible case
 - §6.5 — inventory dedup honesty, PQC algorithm inventory (Release 1), revocation deferred
@@ -12,7 +12,7 @@
 
 ### 1.6.0 · 27 Jun 2026 · David Joo
 
-- §6.4 market positioning — competitive landscape, build/buy/partner, ideal customer, public vs internal TLS clarity
+- §6.4 market positioning — competitors, build/buy/partner, ideal customer, public vs internal TLS clarity
 - §6.5 discovery scope boundaries & collector topology (in-scope / deferred; Ansible AAP as optional integration)
 - §8.6 ROI worksheet, TCO & payback for procurement
 - Terminology pass: **lifecycle stage 1–13** (§4) vs **Release 1–3** (§9) vs **SC-081 enforcement stage** (§3.1)

@@ -28,7 +28,7 @@ Swipe left/right on touch devices.
 ## Slides
 
 1. Title
-2. What I researched
+2. What's been researched
 3. CLM lifecycle — 3 stages vs 9 detailed steps
 4. SC-081 / the problem (equal timeline + impact panels)
 5. Where Vault fits in the 9-step lifecycle
@@ -38,7 +38,7 @@ Swipe left/right on touch devices.
 9. Release 1 commitment
 10. Discovery scope boundaries
 11. Cost of doing nothing (operational risk)
-12. What I want to do
+12. Proposed next steps
 13. Summary / research conclusion
 
 ## Design

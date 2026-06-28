@@ -5,7 +5,7 @@
 
 **Version:** 1.6.1 · **Updated:** 27 Jun 2026 · **Changed by:** David Joo
 
-> **How to read this document:** Start with **§1**, **§6.4**, and **§9.0** if you have ~15 minutes (executives and field). **§8.6** is for procurement. **§2–§4**, **§6.5**, and the policy sections (§2.8–§2.10) go deeper on the full CLM vision. That depth is reference material, not Release 1 funding scope.
+> **How to read this document:** Start with **§1**, **§6.4**, and **§9.0** if you have ~15 minutes (executives and field). **§8.6** is for procurement. **§2–§4**, **§6.5**, and the policy sections (§2.8–§2.10) go deeper on the full CLM vision. That depth is reference material, not Release 1 commitment.
 
 > **Vault version scope:** Most of the gap analysis assumes **Vault 1.x** (built-in PKI, Vault Agent `pki_external_ca`, HCP Certificates Inventory), which is still what most customers run. **Vault Enterprise 2.0** (GA April 2026) adds useful issuance and lifecycle automation (see **§6.0**). Some of that overlaps with plugin Operate paths, but it does not replace discovery, a human-readable estate inventory, standards reporting, or the Report → Act → Operate → Evidence loop. Where 2.x changes the picture, we call it out.
 
@@ -18,24 +18,24 @@
 
 Certificate Lifecycle Management (CLM) is often reduced to "issue and renew certs." That is not enough for regulated or large enterprises.
 
-**Full CLM** is more than issuance. You need to know which certificates you have, govern how they are created and changed, renew and revoke reliably, and keep audit evidence even when policy auto-approves a change.
+Issuance alone is not CLM. You also need to know which certificates you have, govern how they are created and changed, renew and revoke reliably, and keep audit evidence even when policy auto-approves a change.
 
-Two forces are converging:
+Two things are hitting at once:
 
 1. **Industry enforcement.** CA/B Forum Ballot SC-081v3 is shortening public TLS certificate validity toward **47 days by 15 March 2029**. The **200-day ballot ceiling applies from 15 March 2026**; major CAs issue at **199 days** in practice. Before that: 398 days pre-March 2026, then 100 days from March 2027.
 2. **Regulatory expectation.** Standards such as ISM, DORA, PCI DSS 4, and sector rules (APRA, MAS, RBI) do not typically mandate "47 days," but they do require inventory, timely renewal, lifecycle governance, and demonstrable control effectiveness.
 
 **HashiCorp Vault is strong as CA and secrets platform:** dynamic PKI issuance, ACME/SCEP/EST/CMPv2 (Enterprise), Agent-based delivery, audit logs, and (on HCP) certificate inventory for **Vault-issued** certs. **Vault Enterprise 2.0** adds a dedicated **PKI External CA** engine and native Agent ACME for public CA workflows. It still does not give you full-estate CLM visibility (§6.0).
 
-**Where enterprises actually hurt:** Vault does not discover certs it did not issue. It does not show certs in terms a human can use (service, endpoint, owner rather than serial/key/mount). It does not bind certs to owners and endpoints, track status across rotations, integrate change records, run standards-based compliance reports, or manage the full estate (external public, internal private, orphaned/unknown).
+**Where enterprises hurt in practice:** Vault cannot discover certs it did not issue. Inventory is keyed by serial, key, and mount, not by service, endpoint, or owner. It does not bind certs to owners and endpoints, track status across rotations, integrate change records, run standards-based compliance reports, or manage the full estate (external public, internal private, orphaned/unknown).
 
-That gap is real and commercially meaningful, especially for ANZ financial services, government, and any organisation under SC-081v3 plus APRA/ISM audit pressure.
+That gap matters for ANZ financial services, government, and any organisation under SC-081v3 plus APRA/ISM audit pressure.
 
-**Recommendation:** Build a Vault-adjacent **CLM Discovery & Compliance plugin** (not a replacement CA). **Release 1 (funded wedge):** discover, human-readable inventory, SC-081/PCI reports, alert. Prove the blind spot (§9.0). **Release 2–3** (operate, import & replace, policy engine, enterprise integration) is vision, not the initial commitment.
+**Recommendation:** Build a Vault-adjacent **CLM Discovery & Compliance plugin** (not a replacement CA). **Release 1:** discover, human-readable inventory, SC-081/PCI reports, alert. Prove the blind spot (§9.0). **Release 2–3** (operate, import & replace, policy engine, enterprise integration) is vision, not the initial commitment.
 
 **What you get in Release 1:** The plugin scans TLS endpoints and cloud load balancers, builds a human-readable inventory (including certs Vault never issued), flags SC-081 and PCI problems (including weak algorithms), exports audit reports, and sends alerts over API using your existing Vault login. It does not auto-fix certs, run a policy engine, or replace Venafi. The point is to prove the blind spot quickly.
 
-**Market positioning:** A narrow wedge for **Vault-standardised estates with shadow certs**, not a Venafi replacement. See **§6.4** (competitive / build-buy-partner, internal funding) and **§6.5** (discovery scope). What Release 1 actually commits to: **§9.0**.
+**Market positioning:** A narrow wedge for **Vault-standardised estates with shadow certs**, not a Venafi replacement. See **§6.4** (competitors, build/buy/partner) and **§6.5** (discovery scope). What Release 1 actually commits to: **§9.0**.
 
 **Import and replace** (registering unmanaged certs, then migrating them to Vault-managed issuance) matters, but it is **Release 2** vision, not Release 1.
 
@@ -1022,7 +1022,7 @@ API-first does not mean "hard to use." Pair the API with:
 
 ---
 
-## 3. What is changing: rules and governance landscape
+## 3. What is changing: rules and governance
 
 ### 3.1 The hard deadline: CA/B Forum SC-081v3
 
@@ -1721,9 +1721,9 @@ flowchart TB
 
 **Positioning nuance:** Vault is an excellent control plane for secrets and PKI. It is not a full enterprise CLM platform for heterogeneous estates. HashiCorp's own messaging pairs Vault with Radar for secrets exposure and partner integrations (DigiCert TLM, etc.) for broader CLM.
 
-### 6.4 Market positioning: competitive landscape and build / buy / partner
+### 6.4 Market positioning: competitors and build / buy / partner
 
-The funding question is straightforward: **why build next to Vault when Venafi and others already sell full CLM?**
+The obvious question: **why build next to Vault when Venafi and others already sell full CLM?**
 
 #### Who owns what today
 
@@ -1754,9 +1754,9 @@ Incumbents solve broad CLM well, especially credentialed store discovery, code-s
 
 **Recommended stance:** Build the narrow wedge; partner for breadth. Ansible Automation Platform is the deliberate integration point for collector placement and deploy/remediation playbooks. It is not a dependency on a broader IBM security portfolio. For credentialed store discovery beyond Release 1, use partners or customer-run agents rather than claiming Venafi parity on day one.
 
-#### Internal funding rationale (HashiCorp / IBM)
+#### Product sponsor rationale (HashiCorp / IBM)
 
-After the acquisition, leadership will ask why to fund this inside Vault instead of pointing at an existing IBM asset.
+After the acquisition, leadership may ask why to build this inside Vault instead of pointing at an existing IBM asset.
 
 | Question | Answer |
 |---|---|
@@ -1765,7 +1765,7 @@ After the acquisition, leadership will ask why to fund this inside Vault instead
 | **Why build vs OEM Venafi?** | OEM buys connector breadth. Build keeps the same token, namespace, and audit model and gives a path to migrate shadow certs into Vault PKI / External CA. |
 | **Open question for leadership** | Whether IBM plans a separate CLM SKU. This doc assumes a Vault-adjacent build unless directed to partner or OEM. We are not recommending bundling with the heavy IBM security stack. |
 
-**Internal one-liner:** Fund Vault CLM Discovery because it drives Vault PKI and External CA consumption and fixes an estate visibility problem that Vault 2.0 alone does not solve, without asking customers to take on another enterprise security suite.
+**Internal one-liner:** Treat this as a Vault add-on: it surfaces certs Vault missed, drives PKI and External CA adoption, and avoids asking customers to bolt on another GRC suite.
 
 #### Ideal customer profile (and who this is weak for)
 
@@ -1904,7 +1904,7 @@ Enterprise CLM covers revocation propagation, CRL/OCSP at scale, and trust-store
 | Replace with Vault-managed cert | P2 | Partial (issue+deploy only) | **High** | **Core Release 2 differentiator** |
 | Certificate adoption status (`external` → `vault`) | P2 | None | **High** | Yes |
 | Issuance / PKI | P1 | **Strong** | Low | **Integrate with Vault PKI — don't rebuild** |
-| Policy / ACL governance | P1 | **Strong** | Low | Leverage Vault |
+| Policy / ACL governance | P1 | **Strong** | Low | Use existing Vault |
 | Agent-based deploy | P2 | **Good** | Low | Complement |
 | Revocation (as CA) | P2 | **Good** | Low | Complement |
 
@@ -2024,7 +2024,7 @@ We do not cite specific dollar figures here (outage cost varies enormously by in
 | Vault sees Vault-issued only | Unified human-readable estate + Vault correlation |
 | 8× manual renewals by 2029 | Automated operate path via Vault PKI / External CA / Agent |
 
-**Executive one-liner:** Doing nothing still has a cost: outage risk, audit failure, and roughly 8× renewal load on a fixed calendar, while most organisations still cannot list their certificates.
+**In short:** Doing nothing still has a cost: outage risk, audit failure, and roughly 8× renewal load on a fixed calendar, while most organisations still cannot list their certificates.
 
 See also **§3.1.1** (what the rules mean organisationally), **§8.1–8.2** (problem statement and timing), and **§8.6** (ROI worksheet for procurement).
 
@@ -2106,9 +2106,9 @@ Replace every example with pilot data. The worksheet is meant to start the conve
 
 ### 9.0 Release 1 commitment vs product vision
 
-> Scope initial funding to Release 1 only. The rest of this document describes the full CLM vision. Treat it as reference material, not committed delivery.
+> Scope Release 1 only. The rest of this document describes the full CLM vision. Treat it as reference material, not committed delivery.
 
-| **Release 1 (funded)** | **Release 2+ (vision, not initial scope)** |
+| **Release 1 (committed)** | **Release 2+ (vision, not initial scope)** |
 |---|---|
 | TLS + cloud LB + K8s discovery | Credentialed store agents, appliance libraries |
 | Human-readable inventory (service, endpoint, owner) | Full entity resolution, CMDB sync |
@@ -2398,15 +2398,15 @@ Open with the blind-spot reveal. That is the whole argument in ten seconds.
 5. **The gap** — blind spot diagram
 6. **Release 1 wedge vs vision** — §9.0; do not scope-creep in the room
 7. **Report and analyze** — baseline/delta reports, algorithm inventory
-8. **Competitive and internal funding** — why not Venafi; why not heavy IBM GRC; Vault as sponsor (§6.4)
+8. **Competitive framing** — why not Venafi; why not heavy IBM GRC; Vault as sponsor (§6.4)
 9. **Discovery scope** — in/out of scope, dedup honesty (§6.5)
-10. **Business case** — cost of doing nothing, ROI ranges (§8.5, §8.6)
+10. **Operational risk** — cost of doing nothing (§8.5); ROI worksheet optional (§8.6)
 11. **Release 2–3 vision** — Act/Operate, import & replace, policy (appendix only)
-12. **Ask** — pilot customer, Release 1 sign-off, fund the wedge
+12. **Research conclusion** — prove blind spot, ship Release 1, defer operate/policy to Release 2+
 
 Appendix if needed: full 19-capability model (§4), policy engine (§2.8–§2.10), import & replace (§10).
 
-This deck shows you know the full spec, know where Vault stops, and are asking for a fundable wedge rather than a multi-year platform on slide one.
+The deck should show you know the full spec, know where Vault stops, and are proposing a narrow Release 1 proof before scoping a multi-year platform.
 
 ---
 
@@ -2416,7 +2416,7 @@ This deck shows you know the full spec, know where Vault stops, and are asking f
 2. **Freeze Release 1 scope (§9.0).** Discovery, human-readable inventory, SC-081/PCI reports, algorithm inventory, alert/webhook, audit v1, core RBAC, API read. No operate, no policy engine, no import & replace workflow.
 3. **Publish OpenAPI v1 spec.** Inventory, reports, audit read; webhooks; async scan jobs; Vault token auth.
 4. **Spec dedup / identity model.** Endpoint + SPKI + SAN heuristics; `possible_duplicate` and `needs_review` (§6.5).
-5. **Backlog Operate and policy schemas for Release 2.** Do not fold into Release 1 funding.
+5. **Backlog Operate and policy schemas for Release 2.** Do not fold into Release 1 scope.
 6. **Design import & replace workflow** (Release 2): status model, Vault PKI / PKI External CA (2.0) / Agent integration.
 7. **Document Vault integration points.** PKI list/issue/revoke, PKI External CA API, HCP inventory, `sys/billing/certificates` vs `normalized_external_ca_cert_units`, Agent ACME.
 8. **Prepare HTML deck from §11.** Blind-spot reveal first; vision in appendix.
@@ -2429,7 +2429,7 @@ This deck shows you know the full spec, know where Vault stops, and are asking f
 ### 1.6.1 · 27 Jun 2026 · David Joo
 
 - §9.0 Release 1 commitment vs product vision — ruthless wedge fence; policy/operate moved to Release 2+ vision
-- §6.4 internal funding rationale — Vault product sponsor; explicit **not** IBM Verify/Guardium/Concert (operational/architectural weight)
+- §6.4 product sponsor rationale — Vault product sponsor; explicit **not** IBM Verify/Guardium/Concert (operational/architectural weight)
 - §6.0 billing fix — `sys/billing/certificates` vs `normalized_external_ca_cert_units` (via `sys/billing/overview`)
 - §8.6 payback — outage probability ranges; FTE/audit-led defensible case
 - §6.5 — inventory dedup honesty, PQC algorithm inventory (Release 1), revocation deferred
@@ -2438,7 +2438,7 @@ This deck shows you know the full spec, know where Vault stops, and are asking f
 
 ### 1.6.0 · 27 Jun 2026 · David Joo
 
-- §6.4 market positioning — competitive landscape, build/buy/partner, ideal customer, public vs internal TLS clarity
+- §6.4 market positioning — competitors, build/buy/partner, ideal customer, public vs internal TLS clarity
 - §6.5 discovery scope boundaries & collector topology (in-scope / deferred; Ansible AAP as optional integration)
 - §8.6 ROI worksheet, TCO & payback for procurement
 - Terminology pass: **lifecycle stage 1–13** (§4) vs **Release 1–3** (§9) vs **SC-081 enforcement stage** (§3.1)

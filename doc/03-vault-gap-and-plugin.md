@@ -175,9 +175,9 @@ flowchart TB
 
 **Positioning nuance:** Vault is an excellent control plane for secrets and PKI. It is not a full enterprise CLM platform for heterogeneous estates. HashiCorp's own messaging pairs Vault with Radar for secrets exposure and partner integrations (DigiCert TLM, etc.) for broader CLM.
 
-### 6.4 Market positioning: competitive landscape and build / buy / partner
+### 6.4 Market positioning: competitors and build / buy / partner
 
-The funding question is straightforward: **why build next to Vault when Venafi and others already sell full CLM?**
+The obvious question: **why build next to Vault when Venafi and others already sell full CLM?**
 
 #### Who owns what today
 
@@ -208,9 +208,9 @@ Incumbents solve broad CLM well, especially credentialed store discovery, code-s
 
 **Recommended stance:** Build the narrow wedge; partner for breadth. Ansible Automation Platform is the deliberate integration point for collector placement and deploy/remediation playbooks. It is not a dependency on a broader IBM security portfolio. For credentialed store discovery beyond Release 1, use partners or customer-run agents rather than claiming Venafi parity on day one.
 
-#### Internal funding rationale (HashiCorp / IBM)
+#### Product sponsor rationale (HashiCorp / IBM)
 
-After the acquisition, leadership will ask why to fund this inside Vault instead of pointing at an existing IBM asset.
+After the acquisition, leadership may ask why to build this inside Vault instead of pointing at an existing IBM asset.
 
 | Question | Answer |
 |---|---|
@@ -219,7 +219,7 @@ After the acquisition, leadership will ask why to fund this inside Vault instead
 | **Why build vs OEM Venafi?** | OEM buys connector breadth. Build keeps the same token, namespace, and audit model and gives a path to migrate shadow certs into Vault PKI / External CA. |
 | **Open question for leadership** | Whether IBM plans a separate CLM SKU. This doc assumes a Vault-adjacent build unless directed to partner or OEM. We are not recommending bundling with the heavy IBM security stack. |
 
-**Internal one-liner:** Fund Vault CLM Discovery because it drives Vault PKI and External CA consumption and fixes an estate visibility problem that Vault 2.0 alone does not solve, without asking customers to take on another enterprise security suite.
+**Internal one-liner:** Treat this as a Vault add-on: it surfaces certs Vault missed, drives PKI and External CA adoption, and avoids asking customers to bolt on another GRC suite.
 
 #### Ideal customer profile (and who this is weak for)
 
@@ -361,7 +361,7 @@ Enterprise CLM covers revocation propagation, CRL/OCSP at scale, and trust-store
 | Replace with Vault-managed cert | P2 | Partial (issue+deploy only) | **High** | **Core Release 2 differentiator** |
 | Certificate adoption status (`external` → `vault`) | P2 | None | **High** | Yes |
 | Issuance / PKI | P1 | **Strong** | Low | **Integrate with Vault PKI — don't rebuild** |
-| Policy / ACL governance | P1 | **Strong** | Low | Leverage Vault |
+| Policy / ACL governance | P1 | **Strong** | Low | Use existing Vault |
 | Agent-based deploy | P2 | **Good** | Low | Complement |
 | Revocation (as CA) | P2 | **Good** | Low | Complement |
 
@@ -389,9 +389,9 @@ That is the HashiCorp-adjacent pitch: Vault secures and issues; the plugin finds
 
 ### 9.0 Release 1 commitment vs product vision
 
-> Scope initial funding to Release 1 only. The rest of this document describes the full CLM vision. Treat it as reference material, not committed delivery.
+> Scope Release 1 only. The rest of this document describes the full CLM vision. Treat it as reference material, not committed delivery.
 
-| **Release 1 (funded)** | **Release 2+ (vision, not initial scope)** |
+| **Release 1 (committed)** | **Release 2+ (vision, not initial scope)** |
 |---|---|
 | TLS + cloud LB + K8s discovery | Credentialed store agents, appliance libraries |
 | Human-readable inventory (service, endpoint, owner) | Full entity resolution, CMDB sync |
