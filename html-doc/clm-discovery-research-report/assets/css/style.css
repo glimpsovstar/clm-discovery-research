@@ -177,6 +177,18 @@ kbd {
 
 .nav-btn:hover { background: rgba(255, 255, 255, 0.06); color: var(--text); }
 .nav-btn:active { transform: scale(0.94); }
+.nav-btn:focus { outline: none; }
+.nav-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.nav-btn.is-key-press {
+  background: rgba(124, 134, 255, 0.14);
+  color: var(--text);
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  transform: scale(0.94);
+}
 
 .dots {
   position: absolute;
@@ -318,14 +330,33 @@ kbd {
 .slide__inner--clm-rings .lead {
   font-size: clamp(0.95em, 1.05vw, 1.12em);
   line-height: 1.45;
-  margin-bottom: 0.65em;
+  margin-bottom: 0;
 }
 
 .slide__inner--clm-rings .clm-rings-layout {
   flex: 1;
   min-height: 0;
-  align-items: stretch;
-  gap: clamp(0.75rem, 1.5vw, 1.5rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  grid-template-areas:
+    "figure legend"
+    "keys   .";
+  column-gap: clamp(1.25rem, 2.5vw, 2.25rem);
+  row-gap: 0.45rem;
+  padding-top: clamp(2.5rem, 6vh, 4rem);
+  align-items: end;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .slide__inner--clm-rings .clm-rings-layout {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "figure"
+      "legend"
+      "keys";
+    align-items: stretch;
+  }
 }
 
 .slide__inner--clm-rings > :not(.clm-rings-layout) {
@@ -817,14 +848,14 @@ h2 {
 }
 
 .card {
-  padding: 0.9em 1em;
+  padding: 1em 1.15em;
   border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border);
 }
 
 .card h3 {
-  margin: 0 0 0.45em;
+  margin: 0 0 0.65em;
   font-size: 1.05em;
   font-weight: 600;
 }
@@ -832,11 +863,17 @@ h2 {
 .card p, .card li {
   margin: 0;
   font-size: 0.92em;
-  line-height: 1.45;
+  line-height: 1.55;
   color: var(--text-muted);
 }
 
-.card ul { margin: 0; padding-left: 1.1rem; }
+.card ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55em;
+}
 
 .card--highlight {
   border-color: rgba(124, 134, 255, 0.35);
@@ -1105,19 +1142,25 @@ table.compact tr:last-child td { border-bottom: none; }
   .clm-rings-layout { grid-template-columns: 1fr; }
 }
 
-.clm-rings-layout__diagram {
+.clm-rings-layout__diagram,
+.clm-rings-layout__figure {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
+  justify-content: flex-end;
+  gap: 0.35rem;
   min-height: 0;
-  height: 100%;
 }
 
-.slide__inner--clm-rings .clm-rings-layout__diagram {
-  display: grid;
-  grid-template-rows: minmax(0, 1fr) auto;
+.slide__inner--clm-rings .clm-rings-layout__figure {
+  grid-area: figure;
+  width: 100%;
+}
+
+.slide__inner--clm-rings .clm-rings__keys {
+  grid-area: keys;
+  justify-content: center;
+  margin-top: 0.15rem;
 }
 
 .clm-rings {
@@ -1132,8 +1175,9 @@ table.compact tr:last-child td { border-bottom: none; }
 
 .slide__inner--clm-rings .clm-rings {
   width: auto;
-  height: 100%;
-  max-height: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: min(58vh, calc(var(--content-frame-h) - 9rem));
   aspect-ratio: 1;
   justify-self: center;
 }
@@ -1220,7 +1264,8 @@ table.compact tr:last-child td { border-bottom: none; }
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.5rem 0.85rem;
+  gap: 0.35rem 0.75rem;
+  margin-top: 0.15rem;
   font-size: 0.68em;
   color: var(--text-dim);
 }
@@ -1255,13 +1300,16 @@ table.compact tr:last-child td { border-bottom: none; }
 .clm-rings-layout__legend {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.55rem;
   min-height: 0;
-  justify-content: center;
 }
 
 .slide__inner--clm-rings .clm-rings-layout__legend {
-  gap: 0.55rem;
+  grid-area: legend;
+}
+
+.slide__inner--clm-rings .lifecycle-linear.surface-card {
+  padding: 0.55em 0.85em 0.35em;
 }
 
 .slide__inner--clm-rings .surface-card {
@@ -1269,11 +1317,12 @@ table.compact tr:last-child td { border-bottom: none; }
 }
 
 .slide__inner--clm-rings .lifecycle-linear__cycle {
-  margin-bottom: 0.55em;
+  margin-bottom: 0.45em;
 }
 
 .slide__inner--clm-rings .lifecycle-linear__ongoing {
   gap: 0.35em 0.5em;
+  margin-bottom: 0;
 }
 
 .slide__inner--clm-rings .lifecycle-linear__ongoing-item {

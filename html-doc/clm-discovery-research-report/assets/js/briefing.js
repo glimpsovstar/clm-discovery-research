@@ -10,6 +10,12 @@
   const indicator = document.querySelector(".slide-indicator");
   const dotsContainer = document.querySelector(".dots");
   const helpPanel = document.querySelector(".help-panel");
+  const navBtns = {
+    prev: document.querySelector('.bottomnav [data-action="prev"]'),
+    next: document.querySelector('.bottomnav [data-action="next"]'),
+    help: document.querySelector('.bottomnav [data-action="help"]'),
+    fullscreen: document.querySelector('.bottomnav [data-action="fullscreen"]'),
+  };
 
   let index = 0;
   let touchStartX = 0;
@@ -39,6 +45,43 @@
       fitActiveSlide();
       requestAnimationFrame(fitActiveSlide);
     });
+  }
+
+  /** Keep keyboard focus on the deck so nav buttons don't show a stale focus ring. */
+  function focusDeck() {
+    deck?.focus({ preventScroll: true });
+  }
+
+  function navActionForKey(key) {
+    switch (key) {
+      case "arrowright":
+      case "arrowdown":
+      case "d":
+      case "s":
+      case " ":
+      case "pagedown":
+        return "next";
+      case "arrowleft":
+      case "arrowup":
+      case "w":
+      case "a":
+      case "pageup":
+        return "prev";
+      case "f":
+        return "fullscreen";
+      case "?":
+        return "help";
+      default:
+        return null;
+    }
+  }
+
+  function highlightNav(action) {
+    navBtns[action]?.classList.add("is-key-press");
+  }
+
+  function unhighlightNav(action) {
+    navBtns[action]?.classList.remove("is-key-press");
   }
 
   /**
@@ -119,6 +162,9 @@
       return;
     }
 
+    const navAction = navActionForKey(key);
+    if (navAction) highlightNav(navAction);
+
     switch (key) {
       case "arrowright":
       case "arrowdown":
@@ -127,6 +173,7 @@
       case " ":
       case "pagedown":
         next();
+        focusDeck();
         e.preventDefault();
         break;
       case "arrowleft":
@@ -135,14 +182,17 @@
       case "a":
       case "pageup":
         prev();
+        focusDeck();
         e.preventDefault();
         break;
       case "home":
         goTo(0);
+        focusDeck();
         e.preventDefault();
         break;
       case "end":
         goTo(slides.length - 1);
+        focusDeck();
         e.preventDefault();
         break;
       case "f":
@@ -160,10 +210,19 @@
       default:
         if (/^[1-9]$/.test(key)) {
           const n = parseInt(key, 10) - 1;
-          if (n < slides.length) goTo(n);
+          if (n < slides.length) {
+            goTo(n);
+            focusDeck();
+          }
           e.preventDefault();
         }
     }
+  });
+
+  document.addEventListener("keyup", (e) => {
+    if (isTypingContext(e.target)) return;
+    const navAction = navActionForKey(e.key.toLowerCase());
+    if (navAction) unhighlightNav(navAction);
   });
 
   document.addEventListener("fullscreenchange", () => {
