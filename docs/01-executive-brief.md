@@ -3,7 +3,7 @@
 **Part of:** CLM Discovery initiative document set  
 **Audience:** Executives, field leadership, program sponsors  
 **Version:** 1.6.1 · **Updated:** 27 Jun 2026  
-**See also:** [Full report](./certificate-lifecycle-management-research-report.md) · [Vault gap & plugin](./03-vault-gap-and-plugin.md) · [Business case](./04-business-case.md) · [HTML briefing](../html-doc/clm-discovery-research-report/index.html)
+**See also:** [Full report](./certificate-lifecycle-management-research-report.md) · [Vault gap & plugin](./03-vault-gap-and-plugin.md) · [Business case](./04-business-case.md) · [HTML briefing](./index.html)
 
 ---
 

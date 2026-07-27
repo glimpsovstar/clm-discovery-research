@@ -49,6 +49,25 @@ Swipe left/right on touch devices.
 
 ## Source material
 
-- `../../doc/certificate-lifecycle-management-research-report.md`
-- `../../doc/03-vault-gap-and-plugin.md`
-- `../../doc/04-business-case.md`
+- [`certificate-lifecycle-management-research-report.md`](./certificate-lifecycle-management-research-report.md)
+- [`03-vault-gap-and-plugin.md`](./03-vault-gap-and-plugin.md)
+- [`04-business-case.md`](./04-business-case.md)
+
+## Everything in this folder
+
+This directory is the GitHub Pages publish root (`main` branch, `/docs` path), so
+the deck and the written research live side by side.
+
+| File | What it is |
+|------|------------|
+| `index.html` | The briefing deck (this document's subject) |
+| `01-executive-brief.md` | Executive summary |
+| `02-clm-reference.md` | CLM lifecycle reference |
+| `03-vault-gap-and-plugin.md` | Vault gap analysis + plugin spec |
+| `04-business-case.md` | Business case |
+| `certificate-lifecycle-management-research-report.md` | Full research report |
+| `certs-management-for-dummies.md` | PKI primer |
+| `sources.md` | Citations |
+| `CHANGELOG.md` | Research changelog |
+| `assets/` | Deck CSS, JS, images |
+| `.nojekyll` | Disables Jekyll so files are served verbatim |
